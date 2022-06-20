@@ -30,3 +30,48 @@
   font-weight: 700;
   box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
 }
+
+.tableWrapper {
+  width: 300px;
+  background-color: #fff;
+}
+
+.tableWrapper > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tableWrapper>div >div {
+  border-right: solid 1.5px black;
+  border-top: solid 1.5px black;
+  border-left: solid 1.5px black;
+}
+
+
+.editable {
+  min-height:50px;
+  min-width: 70%;
+  outline: none;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+
+.icon {
+  min-height: 50px;
+  min-width: 30%;
+   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.note {
+  border-top: 1px solid black;
+  font-size: 1.8rem;
+  width: 100%;
+  padding-top: 15px;
+}

@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { toJpeg } from 'html-to-image';
 import styles from '../styles/Home.module.css'
 import { useState } from 'react';
+import Image from 'next/image';
 
 const download = (base64: string) => {
   const link = document.createElement('a');
@@ -24,38 +25,44 @@ const Home: NextPage = () => {
     { id: 10, name: 'Teste 10', checked: false },
   ])
 
-  const download = () => {
-    var node = document.getElementById('lista') as any;
+  const changeIcon = (key: number) => {
+    setNotes(
+      notes.map(n => n.id === key ? ({ ...n, checked: !n.checked }) : n)
+    )
+  }
 
-    toJpeg(node)
+  const handleClick = () => {
+    toJpeg(document.getElementById('fanfic') as HTMLElement, { quality: 0.95 })
       .then(function (dataUrl) {
-        console.log(dataUrl);
-        console.log(typeof dataUrl);
-      })
-      .catch(function (error) {
-        console.error('oops, something went wrong!', error);
+        const link = document.createElement('a');
+        link.download = 'fanfic.jpeg';
+        link.href = dataUrl;
+        link.click();
       });
   }
 
   return (
     <div className={styles.container}>
-      <button className={styles.btn} onClick={() => download()}>Gerar</button>
-      <div>
-        <table>
-          <tbody>
-            {notes.map(note => {
-              return (
-                <tr key={note.id}>
-                  <td contentEditable>{note.name}</td>
-                  <td>teste</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+      <button className={styles.btn} onClick={() => handleClick()}>Gerar</button>
+      <div className={styles.tableWrapper} id="fanfic">
+        {notes.map(note => {
+          return (
+            <div key={note.id}>
+              <div className={styles.editable} contentEditable suppressContentEditableWarning={true}>{note.name}</div>
+              <div className={styles.icon} onClick={() => changeIcon(note.id)}>
+                {note.checked && <Image src="/check.svg" alt="check icon" layout="fixed" height="30" width="30" />}
+                {!note.checked && <Image src="/x.jpg" alt="check icon" layout="fixed" height="30" width="30" />}
+              </div>
+            </div>
+          )
+        })}
+        <div className={styles.note}>Nota final {notes.reduce((prev, next) => (next.checked ? prev + 1 : prev), 0)}/10</div>
       </div>
     </div>
   )
 }
+
+
+
 
 export default Home
